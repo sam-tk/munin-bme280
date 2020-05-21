@@ -19,6 +19,7 @@ mod muninbme280 {
 graph_title BME280 Environment Temperture
 graph_category environment
 graph_label Temperature
+graph_vlabel C
 temp.label Temperature
 temp.type GAUGE
 temp.max  50
@@ -28,6 +29,7 @@ multigraph bme280_humidity
 graph_title BME280 Environment Humidity
 graph_category environment
 graph_label Humidity
+graph_vlabel (%)
 hum.label Humidity
 hum.type GAUGE
 hum.max 100
@@ -39,6 +41,9 @@ multigraph bme280_pressure
 graph_title BME280 Environment Atmospheric pressure
 graph_category environment
 graph_label pressure
+graph_vlabel hPa
+graph_args -X 0
+graph_scale no
 pressure.label pressure
 pressure.type GAUGE
 pressure.max 1150
