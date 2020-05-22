@@ -1,6 +1,6 @@
 [package]
 name = "rpi-munin-bme280"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["sam-tk"]
 edition = "2018"
 
@@ -10,3 +10,4 @@ edition = "2018"
 bme280 = "^0.2"
 linux-embedded-hal = "^0"
 simple-munin-plugin = "^0"
+average = "^0.10"

@@ -1,0 +1,16 @@
+{
+    // tasks.json の形式に関するドキュメントについては 
+    // https://go.microsoft.com/fwlink/?LinkId=733558 を参照してください
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cargo",
+            "subcommand": "build",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "build",
+            "label": "Rust: cargo build - rpi-munin-bme280"
+        }
+    ]
+}

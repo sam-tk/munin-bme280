@@ -4,6 +4,7 @@ mod muninbme280 {
   use simple_munin_plugin::*;
   use linux_embedded_hal::{Delay, I2cdev};
   use bme280::BME280;
+  use average::{MeanWithError, Estimate};
 
   pub struct Bme280Plugin;
 
@@ -60,14 +61,23 @@ pressure.min  850
       // initialize the sensor
       bme280.init().unwrap();
       // measure temperature, pressure, and humidity
-      let measurements = bme280.measure().unwrap();
-  
+      let mut temp = MeanWithError::new();
+      let mut hum = MeanWithError::new();
+      let mut pressure = MeanWithError::new();
+
+      for _i in 0..5 {
+        let measurements = bme280.measure().unwrap();
+        temp.add(measurements.temperature.into());
+        hum.add(measurements.humidity.into());
+        pressure.add(measurements.pressure.into());
+      } 
+
       println!("multigraph bme280_temp");
-      println!("temp.value {}", measurements.temperature);
+      println!("temp.value {}", temp.mean());
       println!("multigraph bme280_humidity");
-      println!("hum.value {}", measurements.humidity);
+      println!("hum.value {}", hum.mean());
       println!("multigraph bme280_pressure");
-      println!("pressure.value {}", measurements.pressure / 100.0);
+      println!("pressure.value {}", pressure.mean() / 100.0);
 
     }
   }
