@@ -4,7 +4,7 @@ mod muninbme280 {
   use simple_munin_plugin::MuninNodePlugin;
   use linux_embedded_hal::{Delay, I2cdev};
   use bme280::BME280;
-  use average::{MeanWithError, Estimate};
+  // use average::{MeanWithError, Estimate};
   use std::time::Duration;
   use std::thread;
 
@@ -63,9 +63,11 @@ pressure.min  850
       // initialize the sensor
       bme280.init().unwrap();
       // measure temperature, pressure, and humidity
+      /*
       let mut temp = MeanWithError::new();
       let mut hum = MeanWithError::new();
       let mut pressure = MeanWithError::new();
+      
 
       //let duration = Duration::from_millis(1500);
       let duration = Duration::from_secs(2);
@@ -76,13 +78,26 @@ pressure.min  850
         pressure.add(measurements.pressure.into());
         thread::sleep(duration);
       } 
+      */
+
+      let mut measuments = bme280.measure().unwrap();
+      for _i in 0..5 {
+        if 79.0 < measuments.humidity && measuments.humidity < 81.0 &&
+           19.5 < measuments.temperature && measuments.temperature < 20.5 {
+             let duration = Duration::from_secs(3);
+             thread::sleep(duration);
+             measuments = bme280.measure().unwrap();
+           } 
+        else { break; }
+      }
+       
 
       println!("multigraph bme280_temp");
-      println!("temp.value {}", temp.mean());
+      println!("temp.value {}", measuments.temperature);
       println!("multigraph bme280_humidity");
-      println!("hum.value {}", hum.mean());
+      println!("hum.value {}", measuments.humidity);
       println!("multigraph bme280_pressure");
-      println!("pressure.value {}", pressure.mean() / 100.0);
+      println!("pressure.value {}", measuments.pressure / 100.0);
 
     }
   }
