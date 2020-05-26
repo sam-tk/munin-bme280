@@ -1,10 +1,12 @@
 extern crate simple_munin_plugin;
 
 mod muninbme280 {
-  use simple_munin_plugin::*;
+  use simple_munin_plugin::MuninNodePlugin;
   use linux_embedded_hal::{Delay, I2cdev};
   use bme280::BME280;
   use average::{MeanWithError, Estimate};
+  use std::time::Duration;
+  use std::thread;
 
   pub struct Bme280Plugin;
 
@@ -65,11 +67,14 @@ pressure.min  850
       let mut hum = MeanWithError::new();
       let mut pressure = MeanWithError::new();
 
+      //let duration = Duration::from_millis(1500);
+      let duration = Duration::from_secs(2);
       for _i in 0..5 {
         let measurements = bme280.measure().unwrap();
         temp.add(measurements.temperature.into());
         hum.add(measurements.humidity.into());
         pressure.add(measurements.pressure.into());
+        thread::sleep(duration);
       } 
 
       println!("multigraph bme280_temp");
@@ -83,7 +88,7 @@ pressure.min  850
   }
 }
 
-use simple_munin_plugin::*;
+use simple_munin_plugin::MuninNodePlugin;
 
 fn main() {
   let plugin = muninbme280::Bme280Plugin::new();
