@@ -81,9 +81,11 @@ pressure.min  850
       */
 
       let mut measuments = bme280.measure().unwrap();
+      let humidity_base = 80.0_f32 ; 
+      let temperature_base = 20.0_f32 ;
       for _i in 0..5 {
-        if 79.0 < measuments.humidity && measuments.humidity < 81.0 &&
-           19.5 < measuments.temperature && measuments.temperature < 20.5 {
+        if (measuments.humidity - humidity_base).abs() < 0.5 &&
+           (measuments.temperature - temperature_base).abs() < 0.1 {
              let duration = Duration::from_secs(3);
              thread::sleep(duration);
              measuments = bme280.measure().unwrap();
