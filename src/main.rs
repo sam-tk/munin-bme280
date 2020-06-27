@@ -49,8 +49,6 @@ graph_args -X 0
 graph_scale no
 pressure.label pressure
 pressure.type GAUGE
-pressure.max 1150
-pressure.min  850
 "#);
 
     }
@@ -86,7 +84,7 @@ pressure.min  850
       for _i in 0..5 {
         if (measuments.humidity - humidity_base).abs() < 0.5 &&
            (measuments.temperature - temperature_base).abs() < 0.1 {
-             let duration = Duration::from_secs(3);
+             let duration = Duration::from_secs(4);
              thread::sleep(duration);
              measuments = bme280.measure().unwrap();
            } 
