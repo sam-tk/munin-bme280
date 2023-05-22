@@ -45,7 +45,7 @@ graph_title BME280 Environment Atmospheric pressure
 graph_category environment
 graph_label pressure
 graph_vlabel hPa
-graph_args -X 0 -l 950 -u 1030
+graph_args -X 0 -L 4 -u 1010 -l 995 --y-grid 1:5
 graph_scale no
 pressure.label pressure
 pressure.type GAUGE

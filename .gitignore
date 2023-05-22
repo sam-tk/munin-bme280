@@ -1,1 +1,3 @@
 /target
+build_copy.sh
+.gitignore
